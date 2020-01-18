@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.dao.EmpDao">
+
+    <select id="queryCount" parameterType="com.fh.model.empQuery" resultType="java.lang.Integer">
+       select  count(*) from  t_emp e
+    </select>
+
+    <select id="queryList" parameterType="com.fh.model.empQuery" resultMap="MapList">
+        select  e.*,j.name 'jobName',d.deName 'deptName',e1.name 'leaderName'
+        from t_emp e left join t_job j on e.jobId=j.id  left join t_dept d
+        on e.deptId=d.id left join t_emp e1 on e.leaderId=e1.id
+        order by e.id desc
+        limit #{start},#{length}
+    </select>
+
+    <resultMap id="MapList" type="java.util.Map">
+        <result property="jobName" column="jobName"></result>
+        <result property="deptName" column="deptName"></result>
+        <result property="leaderName" column="leaderName"></result>
+    </resultMap>
+
+    <select id="queryJobList" resultType="com.fh.model.Job">
+        select * from t_job
+    </select>
+
+    <select id="queryDeptList" resultType="com.fh.model.Dept">
+        select * from t_dept
+    </select>
+    <select id="queryLeaderList" parameterType="int" resultMap="MapList">
+        select e.*,e1.name 'leaderName' from t_emp e left join t_emp e1 on
+        e.leaderId=e1.id where  e.deptId=#{id}
+    </select>
+</mapper>

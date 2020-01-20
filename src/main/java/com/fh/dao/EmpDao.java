@@ -18,4 +18,6 @@ public interface EmpDao extends BaseMapper<Emp> {
     List<Dept> queryDeptList();
 
     List<Emp> queryLeaderList(Integer deptID);
+
+    void delEmpByList(List list);
 }

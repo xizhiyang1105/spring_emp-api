@@ -34,4 +34,12 @@
         select e.*,e1.name 'leaderName' from t_emp e left join t_emp e1 on
         e.leaderId=e1.id where  e.deptId=#{id}
     </select>
+
+    <delete id="delEmpByList" parameterType="list">
+        delete from t_emp where id in
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
+
 </mapper>

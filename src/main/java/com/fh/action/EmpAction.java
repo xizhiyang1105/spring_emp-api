@@ -5,13 +5,11 @@ import com.fh.model.Emp;
 import com.fh.model.empQuery;
 import com.fh.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.Service;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -43,4 +41,19 @@ public class EmpAction {
     public ServletRequest addEmp(Emp emp){
         return empService.addEmp(emp);
     }
+
+    //批量删除
+    @RequestMapping("delEmpByList")
+    public ServletRequest delEmpByList(@RequestParam("ids[]") List list){
+        empService.delEmpByList(list);
+        return ServletRequest.success();
+    }
+
+    @RequestMapping("delEmpId")
+    public ServletRequest delEmpId(Integer id){
+        empService.delEmpId(id);
+        return ServletRequest.success();
+    }
+
+
 }

@@ -54,4 +54,14 @@ public class EmpServiceImpl implements EmpService {
         empDao.insert(emp);
         return ServletRequest.success();
     }
+
+    @Override
+    public void delEmpByList(List list) {
+        empDao.delEmpByList(list);
+    }
+
+    @Override
+    public void delEmpId(Integer id) {
+        empDao.deleteById(id);
+    }
 }

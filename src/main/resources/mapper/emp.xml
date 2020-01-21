@@ -7,12 +7,14 @@
 
     <select id="queryCount" parameterType="com.fh.model.empQuery" resultType="java.lang.Integer">
        select  count(*) from  t_emp e
+        <include refid="sql_where"></include>
     </select>
 
     <select id="queryList" parameterType="com.fh.model.empQuery" resultMap="MapList">
         select  e.*,j.name 'jobName',d.deName 'deptName',e1.name 'leaderName'
         from t_emp e left join t_job j on e.jobId=j.id  left join t_dept d
         on e.deptId=d.id left join t_emp e1 on e.leaderId=e1.id
+        <include refid="sql_where"></include>
         order by e.id desc
         limit #{start},#{length}
     </select>
@@ -30,9 +32,9 @@
     <select id="queryDeptList" resultType="com.fh.model.Dept">
         select * from t_dept
     </select>
-    <select id="queryLeaderList" parameterType="int" resultMap="MapList">
+    <select id="queryLeaderList"  resultMap="MapList">
         select e.*,e1.name 'leaderName' from t_emp e left join t_emp e1 on
-        e.leaderId=e1.id where  e.deptId=#{id}
+        e.leaderId=e1.id where  e.zt=1;
     </select>
 
     <delete id="delEmpByList" parameterType="list">
@@ -41,5 +43,24 @@
             #{item}
         </foreach>
     </delete>
+
+    <sql id="sql_where" >
+        <where>
+            <if test="name !=null and name !=''">
+                and  e.name like concat('%',#{name},'%')
+            </if>
+            <if test="brandId !=null and brandId !=-1">
+                and e.jobId=#{brandId}
+            </if>
+        </where>
+    </sql>
+    <select id="queryName" parameterType="com.fh.model.Emp" resultType="com.fh.model.Emp">
+        select * from t_emp e where  e.name=#{name} and e.deptId=#{deptId}
+    </select>
+
+    <select id="selectEmpList" parameterType="com.fh.model.empQuery" resultType="com.fh.model.Emp">
+        select * from t_emp e
+        <include refid="sql_where"></include>
+    </select>
 
 </mapper>

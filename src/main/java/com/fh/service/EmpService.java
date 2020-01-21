@@ -13,11 +13,17 @@ public interface EmpService {
 
     ServletRequest queryDeptList();
 
-    ServletRequest queryLeaderList(Integer deptID);
+    ServletRequest queryLeaderList();
 
     ServletRequest addEmp(Emp emp);
 
     void delEmpByList(List list);
 
     void delEmpId(Integer id);
+
+    List<Emp> querylist(empQuery empQuery);
+
+    ServletRequest toUpEmpById(Integer id);
+
+    ServletRequest UpEmpById(Emp emp);
 }

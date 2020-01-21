@@ -30,8 +30,8 @@ public class EmpAction {
         return empService.queryJobList();
     }
     @RequestMapping("queryLeaderList")
-    public ServletRequest queryLeaderList(Integer deptID){
-        return empService.queryLeaderList(deptID);
+    public ServletRequest queryLeaderList(){
+        return empService.queryLeaderList();
     }
     @RequestMapping("queryDeptList")
     public ServletRequest queryDeptList(){
@@ -55,5 +55,13 @@ public class EmpAction {
         return ServletRequest.success();
     }
 
+    @RequestMapping("toUpEmpById")
+    public ServletRequest toUpEmpById(Integer id){
+        return empService.toUpEmpById(id);
+    }
 
+    @RequestMapping("UpEmpById")
+    public ServletRequest UpEmpById(Emp emp){
+        return empService.UpEmpById(emp);
+    }
 }

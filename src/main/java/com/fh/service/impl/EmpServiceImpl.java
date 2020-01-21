@@ -44,14 +44,27 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
-    public ServletRequest queryLeaderList(Integer deptID) {
-        List<Emp> list=empDao.queryLeaderList(deptID);
+    public ServletRequest queryLeaderList() {
+        List<Emp> list=empDao.queryLeaderList();
         return ServletRequest.success(list);
     }
 
     @Override
     public ServletRequest addEmp(Emp emp) {
-        empDao.insert(emp);
+        Integer a=1;
+        Integer jobId = emp.getJobId();
+        Emp emp1=empDao.queryName(emp);
+        if(emp1==null){
+            if(jobId==2||jobId==4||jobId==5){
+                emp.setZt(1);
+                empDao.insert(emp);
+            }else{
+                emp.setZt(2);
+                empDao.insert(emp);
+            }
+        }else {
+            return ServletRequest.success(a);
+        }
         return ServletRequest.success();
     }
 
@@ -63,5 +76,36 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public void delEmpId(Integer id) {
         empDao.deleteById(id);
+    }
+
+    @Override
+    public List<Emp> querylist(empQuery empQuery) {
+        List<Emp>list=empDao.selectEmpList(empQuery);
+        return list;
+    }
+
+    @Override
+    public ServletRequest toUpEmpById(Integer id) {
+        Emp emp = empDao.selectById(id);
+        return ServletRequest.success(emp);
+    }
+
+    @Override
+    public ServletRequest UpEmpById(Emp emp) {
+        Integer a=1;
+        Integer jobId = emp.getJobId();
+        Emp emp1=empDao.queryName(emp);
+        if(emp1==null){
+            if(jobId==2||jobId==4||jobId==5){
+                emp.setZt(1);
+                empDao.updateById(emp);
+            }else{
+                emp.setZt(2);
+                empDao.updateById(emp);
+            }
+        }else {
+            return ServletRequest.success(a);
+        }
+        return ServletRequest.success();
     }
 }
